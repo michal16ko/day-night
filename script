@@ -1,0 +1,28 @@
+local Lightning = game:GetService("Lighting")
+local Minutes = 0 
+
+function Lights(boolvalue)
+	if boolvalue == true then --night 
+		for _, v in pairs(workspace.Lght:GetChildren()) do 
+			v.Material = Enum.Material.Neon
+		end
+	elseif boolvalue == false then --day
+		for _, v in pairs(workspace.Lght:GetChildren()) do
+			
+		end
+	end
+end
+
+Lightning:GetPropertyChangedSignal("ClockTime"):Connect(function()
+	if Lightning.ClockTime >= 18.5 or Lightning.ClockTime <= 7 then --night
+		Lights(true)
+	elseif Lightning.ClockTime >= 7 or Lightning.ClockTime <= 18.5   then --day
+		Lights(false)
+	end
+end)
+
+while true do
+	Minutes += 1
+	Lightning:SetMinutesAfterMidnight(Minutes)
+	task.wait(1 / 50)
+end
